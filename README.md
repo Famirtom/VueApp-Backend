@@ -23,7 +23,7 @@ GET/ -> Returns a simpel welcome message.
 GET/lessons -> Returns a JSON list of lessons.
 
 ---
-##Technologies
+## Technologies
 
 *Node.js
 *Express.js
