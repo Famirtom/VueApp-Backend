@@ -30,7 +30,10 @@ GET/lessons -> Returns a JSON list of lessons.
 *Nodemon (Development only)
 
 ### 🌐 Live API (Render)
-_Deployed link will be added once hosted on Render_
+https://vueapp-backend.onrender.com/
+
+/api/lessons -> return a JSON of all available lessons
+/api/orders -> return the list of orders
 
 ## Author: Tommaso
 
