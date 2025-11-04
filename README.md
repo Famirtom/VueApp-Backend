@@ -29,6 +29,9 @@ GET/lessons -> Returns a JSON list of lessons.
 *Express.js
 *Nodemon (Development only)
 
+### 🌐 Live API (Render)
+_Deployed link will be added once hosted on Render_
+
 ## Author: Tommaso
 
 
