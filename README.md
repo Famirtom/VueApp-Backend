@@ -10,6 +10,8 @@ git clone https://github.com/Famirtom/VueApp-Backend.git
 cd VueApp-Backend
 npm install
 
+Make sure to create a .env file with: Your Mongodb_URI
+
 ### Start the server:
 npm start
 
@@ -29,11 +31,27 @@ GET/lessons -> Returns a JSON list of lessons.
 *Express.js
 *Nodemon (Development only)
 
-### 🌐 Live API (Render)
+###  Live API (Render)
 https://vueapp-backend.onrender.com/
 
-/api/lessons -> return a JSON of all available lessons
-/api/orders -> return the list of orders
+- REST API routes:  
+  - `GET /api/lessons`  
+  - `GET /api/lessons/:id`  
+  - `PUT /api/lessons/:id`  
+  - `POST /api/orders`  
+  - `GET /api/orders`
+## Database Collections 
+lessons (exsample)
+{
+  "_id": "ObjectId",
+  "subject": "Web Development",
+  "location": "London",
+  "price": 249.99,
+  "availableInventory": 5,
+  "rating": 4,
+  "image": "Images/web.png"
+}
+
 
 ## Author: Tommaso
 
