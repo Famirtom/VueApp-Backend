@@ -1,14 +1,14 @@
-require('dotenv').config();
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
-const fs = require("fs");
-const { connectDB } = require("./db");  
+require('dotenv').config(); // Load environment variables from .env file
+const express = require("express"); // Express framework
+const cors = require("cors"); // CORS middleware
+const path = require("path"); // Path module
+const fs = require("fs"); // File system module
+const { connectDB } = require("./db");   // Database connection module
 
-const lessonsRouter = require("./api/lessons");
-const ordersRouter  = require("./api/orders");  
+const lessonsRouter = require("./api/lessons"); // Lessons API router
+const ordersRouter  = require("./api/orders");  // Orders API router
 
-const app = express();
+const app = express(); // Create Express app
 
 // CORS
 app.use(cors({
@@ -18,7 +18,7 @@ app.use(cors({
 }));
 app.options('*', cors());
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; // Server port
 
 // Parse JSON bodies for POST/PUT
 app.use(express.json());
