@@ -1,64 +1,26 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const { connectDB, ObjectId } = require('../db');
 
-/**
- * In-memory store just for the lab.
- * Later you’ll replace this with MongoDB.
- */
-const orders = [];
-
-/**
- * POST /api/orders
- * Body example:
- * {
- *   "firstName": "Tom",
- *   "lastName": "Rossi",
- *   "phone": "1234567890",
- *   "items": [{ "id": 1, "qty": 2, "price": 100 }],
- *   "total": 200
- * }
- */
-router.post("/orders", (req, res) => {
-  const { firstName, lastName, phone, items, total } = req.body;
-
-  // 1) Minimal validation (so we don’t accept garbage)
-  if (
-    !firstName || !lastName || !phone ||
-    !Array.isArray(items) || items.length === 0 ||
-    typeof total !== "number"
-  ) {
-    return res.status(400).json({ error: "Invalid order payload" });
+router.post('/orders', async (req, res) => {
+  try {
+    const { firstName, lastName, phone, items, total } = req.body;
+    if (!firstName || !lastName || !phone || !Array.isArray(items) || typeof total !== 'number') {
+      return res.status(400).json({ error: 'Invalid order payload' });
+    }
+    const db = await connectDB();
+    const doc = { firstName, lastName, phone, items, total, createdAt: new Date() };
+    const { insertedId } = await db.collection('orders').insertOne(doc);
+    res.status(201).json({ _id: insertedId, ...doc });
+  } catch (err) {
+    res.status(500).json({ error: 'Server error while creating order' });
   }
-
-  // Optional: validate each item has id/qty/price numbers
-  const badItem = items.find(
-    it => typeof it.id !== "number" || typeof it.qty !== "number" || typeof it.price !== "number"
-  );
-  if (badItem) return res.status(400).json({ error: "Invalid item in items[]" });
-
-  // 2) Create a server-side order object
-  const order = {
-    id: orders.length + 1,     // simple incremental id
-    firstName,
-    lastName,
-    phone,
-    items,
-    total,
-    createdAt: new Date().toISOString()
-  };
-
-  // 3) Save in-memory
-  orders.push(order);
-
-  // 4) Respond with the created order (201 Created)
-  return res.status(201).json(order);
 });
 
-/**
- * GET /api/orders
- * Simple endpoint to see what has been posted (dev only).
- */
-router.get("/orders", (req, res) => {
+// GET /api/orders
+router.get('/orders', async (_req, res) => {
+  const db = await connectDB();
+  const orders = await db.collection('orders').find().sort({ createdAt: -1 }).toArray();
   res.json(orders);
 });
 

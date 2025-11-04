@@ -1,25 +1,44 @@
-// api/lessons.js
-const express = require("express"); // Import Express framework
-const router = express.Router(); // Create a router instance
-
-// Mock lessons data
-const lessons = [
-  { id: 1, subject: "Math", location: "London", price: 100 },
-  { id: 2, subject: "Science", location: "Paris", price: 120 },
-  { id: 3, subject: "History", location: "Rome", price: 90 }
-];
+const express = require('express');
+const router = express.Router();
+const { connectDB, ObjectId } = require('../db');
 
 // GET /api/lessons
-router.get("/lessons", (req, res) => { // Handle GET requests to /lessons
-  res.json(lessons);
+router.get('/lessons', async (_req, res) => {
+  try {
+    const db = await connectDB();
+    const lessons = await db.collection('lessons').find({}).toArray();
+    res.json(lessons);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database error' });
+  }
 });
 
 // GET /api/lessons/:id
-router.get("/lessons/:id", (req, res) => {
-  const lessonId = Number(req.params.id);
-  const lesson = lessons.find(l => l.id === lessonId);
-  if (lesson) return res.json(lesson);
-  res.status(404).send("Lesson not found");
+router.get('/lessons/:id', async (req, res) => {
+  try {
+    const db = await connectDB();
+    const lesson = await db.collection('lessons')
+      .findOne({ _id: new ObjectId(req.params.id) });
+    if (!lesson) return res.status(404).send('Lesson not found');
+    res.json(lesson);
+  } catch (err) {
+    res.status(400).json({ error: 'Invalid id' });
+  }
+});
+
+// PUT /api/lessons/:id  (update any fields — esp. availableInventory)
+router.put('/lessons/:id', async (req, res) => {
+  try {
+    const db = await connectDB();
+    const update = { $set: req.body }; // e.g. { availableInventory: 4 }
+    const result = await db.collection('lessons')
+      .findOneAndUpdate({ _id: new ObjectId(req.params.id) }, update, { returnDocument: 'after' });
+    if (!result.value) return res.status(404).send('Lesson not found');
+    res.json(result.value);
+  } catch (err) {
+    res.status(400).json({ error: 'Invalid id or payload' });
+  }
 });
 
 module.exports = router;
