@@ -18,12 +18,22 @@ router.get('/lessons', async (_req, res) => {
 router.get('/lessons/:id', async (req, res) => {
   try {
     const db = await connectDB(); // Connect to DB
+    // convert ID from string to number
+    const numericId = parseInt(req.params.id);
+    if (isNaN(numericId)) {
+      return res.status(400).json({ error: 'Invalid id' });
+    }
+    // check "id" field in lessons collection
     const lesson = await db.collection('lessons') 
-      .findOne({ _id: new ObjectId(req.params.id) }); // Fetch lesson by ID
-    if (!lesson) return res.status(404).send('Lesson not found');
+      .findOne({ id: numericId }); // Fetch lesson by ID
+
+    if (!lesson) {
+      return res.status(404).send('Lesson not found');
+    } 
     res.json(lesson);
   } catch (err) {
-    res.status(400).json({ error: 'Invalid id' });
+    console.error("Error fetching lessonS by ID: ", err);
+    res.status(500).json({ error: 'Database error' });
   }
 });
 
@@ -33,10 +43,11 @@ router.put('/lessons/:id', async (req, res) => {
     const db = await connectDB();
     const update = { $set: req.body }; // e.g. { availableInventory: 4 }
     const result = await db.collection('lessons')
-      .findOneAndUpdate({ _id: new ObjectId(req.params.id) }, update, { returnDocument: 'after' });
+      .findOneAndUpdate({ id: parseInt(req.params.id) }, update, { returnDocument: 'after' });
     if (!result.value) return res.status(404).send('Lesson not found');
     res.json(result.value); // Return updated lesson
   } catch (err) {
+    console.error("Error updating lesson: ", err);
     res.status(400).json({ error: 'Invalid id or payload' });
   }
 });
