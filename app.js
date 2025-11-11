@@ -18,7 +18,7 @@ app.use(cors({
 }));
 app.options('*', cors());
 
-const PORT = process.env.PORT || 3000; // Server port
+const PORT = process.env.PORT || 3001; // Server port
 
 // Parse JSON bodies for POST/PUT
 app.use(express.json());
