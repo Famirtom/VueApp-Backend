@@ -27,7 +27,8 @@ router.get('/lessons/:id', async (req, res) => {
     if (!lesson) return res.status(404).send('Lesson not found');
     res.json(lesson);
   } catch (err) {
-    res.status(400).json({ error: 'Invalid id' });
+    console.error("Error fetching lessonS by ID: ", err);
+    res.status(500).json({ error: 'Database error' });
   }
 });
 
