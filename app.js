@@ -11,6 +11,11 @@ const ordersRouter  = require("./api/orders");  // Orders API router
 const app = express(); // Create Express app
 
 // CORS
+// how it works:
+// 1. allow requests from specific origins
+// 2. allow specific HTTP methods
+// 3. allow specific headers
+// 4. handle preflight OPTIONS requests
 app.use(cors({
   origin: ['http://127.0.0.1:3001', 'http://localhost:3001', 'https://famirtom.github.io'],
   methods: ['GET','POST','PUT','OPTIONS'],

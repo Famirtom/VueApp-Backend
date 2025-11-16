@@ -1,8 +1,13 @@
-const express = require('express');
-const router = express.Router();
-const { connectDB, ObjectId } = require('../db');
+const express = require('express'); // Express framework
+const router = express.Router(); // Router instance
+const { connectDB, ObjectId } = require('../db'); // Database connection and ObjectId
 
 // GET /api/lessons
+// how it works:
+// 1. connect to the database
+// 2. query the lessons collection for all documents
+// 3. respond with the lessons data in JSON format
+// 4. handle any database errors
 router.get('/lessons', async (_req, res) => {
   try {
     const db = await connectDB();
@@ -15,6 +20,13 @@ router.get('/lessons', async (_req, res) => {
 });
 
 // GET /api/lessons/:id
+// how it works:
+// 1. connect to the database
+// 2. extract the id from req.params
+// 3. create a filter based on whether the id is a valid ObjectId
+// 4. query the lessons collection for a document matching the filter
+// 5. if no lesson is found, respond with 404
+// 6. if found, respond with the lesson data in JSON format
 router.get('/lessons/:id', async (req, res) => {
   try {
     const db = await connectDB();
@@ -33,6 +45,14 @@ router.get('/lessons/:id', async (req, res) => {
 });
 
 // PUT /api/lessons/:id
+// how it works:
+// 1. log the incoming id and body
+// 2. connect to the database
+// 3. create a filter based on whether the id is a valid ObjectId
+// 4. create an update object with the new data from req.body
+// 5. use findOneAndUpdate to update the lesson and return the updated document
+// 6. check if an update occurred by examining result properties
+// 7. respond with success message and updated lesson or error if not found
 router.put('/lessons/:id', async (req, res) => {
   console.log('Incoming PUT:', req.params.id);
   console.log('Body received:', req.body);
