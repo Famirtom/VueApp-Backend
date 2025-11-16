@@ -77,7 +77,40 @@ router.put('/lessons/:id', async (req, res) => {
     res.status(400).json({ error: 'Invalid id or payload' });
   }
 });
+// search lessos GET api/search?query=
+// HOW IT WORK:
+// Take the quare paramenter q from req.query.q
+// Use $regex to create a case-insensitive search pattern
+// Return lessons where any of the fields match the search term
+// if q is empty, return all lessons
+router.get('/search', async (req, res) => {
+  try {
+    const term = req.query.q?.trim() || '';
+    if(!term) {
+      // if there are no terms ---> return all lessons
+      const db = await connectDB();
+      const lessons = await db.collection('lessons').find({}).toArray();
+      return res.json(lessons);
+    }
+    const db = await connectDB();
+    const regex = new RegExp(term, 'i'); // case-insensitive search
 
+    const results = await db.collectioin('lessons').find({
+      $or: [
+        { title: { $regex: regex } },
+        { location: { $regex: regex } },
+        { description: { $regex: regex } },
+        { price: { $regex: regex }},
+        { duration: { $regex: regex } }
+      ]
+    }).toArray();
+
+    res.jeson(results);
+  } catch (err) {
+    console.error('Search error:', err);
+    res.status(500).json({ error: 'Database error' });
+  }
+}); 
 
 
 module.exports = router;
