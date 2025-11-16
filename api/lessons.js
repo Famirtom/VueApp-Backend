@@ -94,7 +94,7 @@ router.get('/search', async (req, res) => {
     }
     const regex = new RegExp(term, 'i'); // case-insensitive search
 
-    const results = await db.collectioin('lessons').find({
+    const results = await db.collection('lessons').find({
       $or: [
         { title: { $regex: regex } },
         { location: { $regex: regex } },
