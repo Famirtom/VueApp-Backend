@@ -1,8 +1,9 @@
 # VueApp-Backend
 Backend server for the **VueApp** project.
-Build with **Node.js** and **Express.js**.
+Build with **Node.js** ,**Express.js** and **MongoDB driver**.
 
 ---
+
 ## Run locally
 Clone the repository and install dependencies:
 
@@ -40,20 +41,29 @@ the server will run at http:/localhost:3001
 ---
 ## Technologies
 
-*Node.js
-*Express.js
-*Router
-*CORS middleware
+* Node.js - JavaScript runtime
+* Express.js - Web Server framework
+* MongoDB (Atlas) - NoSQL database
+* dotenv - Environment variable management
+* CORS - Middleware for cross-origin requests
+* nodemon  - for local development
+
+## Middleware overview
+* Express.json() - Parse incoming JSON payloads
+* cors() - Enable communication with the GitHUb pages frontend
+* Logging Middleware -  Displays HTTP method and URL for each request
+* Stati middleware - Serves images with 404 fallback
 
 ###  Live API (Render)
-https://vueapp-backend.onrender.com/ (Only on request)
+URL: https://vueapp-backend.onrender.com/ (Only on request)
 
-- REST API routes:  
-  - `GET /api/lessons`  
-  - `GET /api/lessons/:id`  
-  - `PUT /api/lessons/:id`  
-  - `POST /api/orders`  
-  - `GET /api/orders`
+The frontend (hostend on GitHub page) communicates with this backend (on Render) through REST API calls:
+Action | Front-end -> Back-end |  Method
+Load all lessons | `/api/lessosn` | GET
+Search lessons | `/api/search?q=term` | GET
+Update inventory | `/api/lessons/:id` | PUT
+place order | `/api/orders` | POST
+retrieve all order | `/api/orders` | GET
 
 
 ## Author: Tommaso
