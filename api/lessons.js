@@ -103,7 +103,7 @@ router.get('/search', async (req, res) => {
       ]
     }).toArray();
 
-    res.jeson(results);
+    res.json(results);
   } catch (err) {
     console.error('Search error:', err);
     res.status(500).json({ error: 'Database error' });
