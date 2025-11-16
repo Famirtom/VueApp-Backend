@@ -1,16 +1,27 @@
+// app.js - Main application file for VueApp-Backend
+// THis file configures the Express.js web server, connects it to MongoDB
+// and defines how requests form the fornt-end are handles.
+
+// 'dotenv' loads environment variables from a .env file into process.env
+// 'cors' allows cross-origin requests from the front-end hosted on GitHub Pages
+
 require('dotenv').config(); // Load environment variables from .env file
 const express = require("express"); // Express framework
-const cors = require("cors"); // CORS middleware
-const path = require("path"); // Path module
+const cors = require("cors"); // allows Cross-Origin Resource Sharing form front end on GItHub pages
+const path = require("path"); // Handle Path module
 const fs = require("fs"); // File system module
 const { connectDB } = require("./db");   // Database connection module
 
+
+// routes imports
 const lessonsRouter = require("./api/lessons"); // Lessons API router
 const ordersRouter  = require("./api/orders");  // Orders API router
 
-const app = express(); // Create Express app
+// Create Express app
+const app = express(); 
+const PORT = process.env.PORT || 3001; // Server port
 
-// CORS
+// Middleware to handle CORS
 // how it works:
 // 1. allow requests from specific origins
 // 2. allow specific HTTP methods
@@ -23,12 +34,10 @@ app.use(cors({
 }));
 app.options('*', cors());
 
-const PORT = process.env.PORT || 3001; // Server port
-
 // Parse JSON bodies for POST/PUT
 app.use(express.json());
 
-// Middleware for logging requests
+// log each request for debugging
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
   next();

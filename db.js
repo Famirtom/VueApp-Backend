@@ -1,4 +1,7 @@
-// db.js — native MongoDB driver (no mongoose)
+// ConnectDB() explanation
+// Enstablishes a single reusalbe connection to MongoDB atlas 
+// Uses the native MongoDB driver instead of Mongoodse
+// returns the database instance fro performing CRUD operations
 const { MongoClient, ObjectId } = require('mongodb');
 // Connection URI
 const uri = process.env.MONGODB_URI; 

@@ -116,7 +116,7 @@ router.get('/search', async (req, res) => {
 
     const results = await db.collection('lessons').find({
       $or: [
-        { title: { $regex: regex } },
+        { subject: { $regex: regex } },
         { location: { $regex: regex } },
         { description: { $regex: regex } },
         { duration: { $regex: regex } }

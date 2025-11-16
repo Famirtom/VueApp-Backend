@@ -1,3 +1,7 @@
+// orders.js - manages order creation and retrieval
+// this route handles POST and GET requests for orders
+// orders are validated, saved in MONGODBV and sorted by creation data
+
 const express = require('express'); // Express framework
 const router = express.Router(); // Create router
 const { connectDB, ObjectId } = require('../db'); // Database connection and ObjectId
