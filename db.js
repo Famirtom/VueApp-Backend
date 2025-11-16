@@ -10,7 +10,7 @@ async function connectDB() {
   if (db) return db;
   await client.connect();
   db = client.db('VueApp'); // your DB name in Atlas
-  console.log('MongoDB connected (native driver)');
+  console.log('MongoDB connected');
   return db;
 }
 
