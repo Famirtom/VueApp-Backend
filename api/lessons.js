@@ -86,13 +86,12 @@ router.put('/lessons/:id', async (req, res) => {
 router.get('/search', async (req, res) => {
   try {
     const term = req.query.q?.trim() || '';
+    const db = await connectDB();
     if(!term) {
       // if there are no terms ---> return all lessons
-      const db = await connectDB();
       const lessons = await db.collection('lessons').find({}).toArray();
       return res.json(lessons);
     }
-    const db = await connectDB();
     const regex = new RegExp(term, 'i'); // case-insensitive search
 
     const results = await db.collectioin('lessons').find({
@@ -100,7 +99,6 @@ router.get('/search', async (req, res) => {
         { title: { $regex: regex } },
         { location: { $regex: regex } },
         { description: { $regex: regex } },
-        { price: { $regex: regex }},
         { duration: { $regex: regex } }
       ]
     }).toArray();
