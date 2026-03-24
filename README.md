@@ -1,7 +1,7 @@
 ## Overview
 
 This backend provides the RESTful API for the VueApp project.
-it is hosted on Render and connects to a MongoDB Atlas database.
+It is hosted on Render and connects to a MongoDB Atlas database.
 The API handles lessosn, order, and full-text search.
 
 # VueApp-Backend
@@ -71,6 +71,17 @@ Update inventory | `/api/lessons/:id` | PUT
 place order | `/api/orders` | POST
 retrieve all order | `/api/orders` | GET
 
+
+## Features
+- REST API endpoints for course data
+- Order creation and management
+- Data validation and processing
+- Integration with frontend application
+
+
+## How to Run
+1. Install dependencies: npm install
+2. Run server: npm start
 
 ## Author: Tommaso
 
